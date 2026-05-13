@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +13,6 @@
 <body>
     <div class='container'>
         <section class='informacoes'>
-            <?php
-            session_start();
-            ?>
 
             <form method="POST" action="" class="login" >
             <fieldset id="fie">
@@ -40,20 +39,26 @@
                 },
                 dataType: 'json',
                 success: function(json) {
-                    console.log(json.retorno);
                     if(json.retorno == 'Sucesso'){
                         window.location.href = './user-input.php';
+                        Swal.fire({
+                        icon: "success",
+                        title: "Oops...",
+                        text: "Bem-vindo, "+ json.nome + "!",
+                        // footer: "<a href=\"#\">Why do I have this issue?</a>"
+                        });
+
+                        // echo "Bem-vindo, " + json.nome;
                     } 
                     if(json.retorno == 'Erro'){
                         Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Confira suas Credenciais!",
+                        text: "Confra sua senha e login!",
                         // footer: "<a href=\"#\">Why do I have this issue?</a>"
                         });
 
                     }
-                    console.log('TUDO OK');
                 }, 
                 error: function(){
                     console.log('ERRO');

@@ -48,6 +48,10 @@
         flex-direction: column;
     }
 
+    input.informacoes, select.informacoes{
+        color: black;
+    }
+
     @media(max-width:600px){
         .container{
             align-content: center;

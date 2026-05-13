@@ -12,9 +12,15 @@
         <form action="">
             <section class='informacoes'>
                 <h1 class='textoInicio'>Selecione o item de compra:</h1>
-                <input class='informacoes' type="text" name="itemLista" placeholder='Pera'>
+                <select class='informacoes' type="select" id='itemsLista' name="itemLista" >
+                    <option value="pera">Pera</option>
+                    <option value="maçã">Maçã</option>
+                    <option value="banana">Banana</option>
+                    <option value="ameixa">Ameixa</option>
+                </select>
+
                 <button type='button' onclick='cadastraItens()' value='cadastraItens'>Salvar itens</button>
-                <a s='case2.php'> <button type='button' value='acessaLista'>Acessar lista</button> </a>
+                <a href='case2.php'> <button type='button' value='acessaLista'>Acessar lista</button> </a>
             </section>
         </form>
 </div>
@@ -23,15 +29,15 @@
     function cadastraItens(){
         $.ajax({
             type: 'POST',
-            url: './user-controler.php',
+            url: './user-controler.php?acao=caditens',
             data: {
-                itensLista: $('input[name=itemLista]').val()
+                itensLista: $('#itemsLista').val()
             },
             dataType: 'json',
             success: function(json) {
-                console.log(json);
+                console.log(json.nome_fruta);
             }, error: function(){
-                console.log('ERRO');    
+                console.log('ERRO');
             }
         })
     }
@@ -41,11 +47,11 @@
 
 </html>
 <?php
-    if(isset($_POST['cadastraItens'])){
-        print_r($_POST['itemLista']);
-        include_once('conectaDados.php');
+    // if(isset($_POST['cadastraItens'])){
+    //     print_r($_POST['itemLista']);
+    //     include_once('conectaDados.php');
 
-        $nomeList = $_POST['itemLista'];
-        $resultado = mysqli_query($conn, '');
-    }
+    //     $nomeList = $_POST['itemLista'];
+    //     $resultado = mysqli_query($conn, '');
+    // }
 ?> 

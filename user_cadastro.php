@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="php.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
     <title>Document</title>
 </head>
 <body>
@@ -18,7 +19,7 @@
             <input type="text" name="usuario"  /><br />
             <label>Senha :</label>
             <input type="password" name="senha" /><br>
-            <button type='button' onclick='Cadastro()'>Cadastrar</button><br/>
+            <button type='button' onclick="Cadastro()">Cadastrar</button><br/>
             <a href='./user_login.php'> <button type='button'>Logar</button></a>
             </fieldset>
             </form> 
@@ -39,17 +40,25 @@
                     if(json.retorno == 'Sucesso'){
                         window.location.href = './user-input.php';
                     } 
-                    if(json.retorno == 'Erro'){
+                    if(json.retorno == 'usuExistente'){
                         Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Confira suas Credenciais!",
+                        text: "Usuario já existe.",
                         // footer: "<a href=\"#\">Why do I have this issue?</a>"
                         });
                     }
-                // error: function(){
-                //     console.log('ERRO');
-                // }
+                    if(json.retorno == 'campoVazio'){
+                        Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Preencha todos os campos primeiro.",
+                        // footer: "<a href=\"#\">Why do I have this issue?</a>"
+                        });
+                    }
+                    
+                }, error: function(){
+                    console.log('ERRO');
                 }
             })
         }

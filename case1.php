@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="php.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title></title>
 </head>
 <body>
@@ -23,6 +24,7 @@
         
     </div>
     <script>
+
         function CriarLista(){
             $.ajax({
                 type: 'POST',
@@ -32,8 +34,17 @@
                 },
                 dataType: 'json',
                 success: function(json) {
-                    console.log(json);
-                    console.log('TUDO OK');
+                    if(json.retorno == 'Sucesso'){
+                        window.location.href = './cadastraItens.php';
+                    } 
+                    if(json.retorno == 'Erro'){
+                        Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Preencha o nome da lista.",
+                        // footer: "<a href=\"#\">Why do I have this issue?</a>"
+                        });
+                    }
                 }, 
                 error: function(){
                     console.log('ERRO');    
