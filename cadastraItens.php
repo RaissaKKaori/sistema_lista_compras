@@ -14,7 +14,7 @@
                 <h1 class='textoInicio'>Selecione o item de compra:</h1>
                 <input class='informacoes' type="text" name="itemLista" placeholder='Pera'>
                 <button type='button' onclick='cadastraItens()' value='cadastraItens'>Salvar itens</button>
-                <a href='case2.php'> <button type='button' value='acessaLista'>Acessar lista</button> </a>
+                <a s='case2.php'> <button type='button' value='acessaLista'>Acessar lista</button> </a>
             </section>
         </form>
 </div>

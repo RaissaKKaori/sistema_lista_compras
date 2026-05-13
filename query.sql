@@ -1,0 +1,8 @@
+CREATE DATABASE listaUsuario;
+
+CREATE TABLE usuario(
+id INT AUTO_INCREMENT PRIMARY KEY,
+nomeUsuario VARCHAR(40) NOT NULL,
+senhaUsuario VARCHAR(40)NOT NULL,
+usu_valido INT
+)

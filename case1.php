@@ -9,17 +9,17 @@
 </head>
 <body>
     <div class='container'>
-        
-            <section class='informacoes'>
-                <form class='form' action="" method='POST'>
-                    <h1 class='textoInicio'>Digite o nome da sua lista:</h1>
-                    <input class='informacoes' type="text" name="nomeLista" placeholder="Digite o nome da lista">
-                    <br></br>
-                    <button  type='button' onclick='CriarLista()' value='sendNome'>Salvar</button>
 
-                </form>
-                <a href='./cadastraItens.php'><button >Cadstrar itens</button></a>
-            </section>
+    <section class='informacoes'>
+        <form class='form' action="" method='POST'>
+            <h1 class='textoInicio'>Digite o nome da sua lista:</h1>
+            <input class='informacoes' type="text" name="nomeLista" placeholder="Digite o nome da lista">
+            <br></br>
+            <button  type='button' onclick='CriarLista()' value='sendNome'>Salvar</button>
+
+        </form>
+        <a href='./cadastraItens.php'><button >Cadstrar itens</button></a>
+    </section>
         
     </div>
     <script>
