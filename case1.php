@@ -30,18 +30,18 @@
                 type: 'POST',
                 url: './user-controler.php?acao=criarLista',
                 data: {
-                    nomeLista: $('input[name = "nomeLista"]').val()
+                    a: $('input[name = "nomeLista"]').val()
                 },
                 dataType: 'json',
                 success: function(json) {
                     if(json.retorno == 'Sucesso'){
                         window.location.href = './cadastraItens.php';
                     } 
-                    if(json.retorno == 'Erro'){
+                    if(json.retorno == 'nome_list'){
                         Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Preencha o nome da lista.",
+                        text: "aaaaaa.",
                         // footer: "<a href=\"#\">Why do I have this issue?</a>"
                         });
                     }
