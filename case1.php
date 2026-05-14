@@ -62,6 +62,6 @@
         include_once('conectaDados.php');
 
         $nomeList = $_POST['nomeLista'];
-        $resultado = mysql_quiery($conn, '');
+        $resultado = mysql_query($conn, '');
     }
 ?> 

@@ -94,15 +94,16 @@ switch ($_GET['acao']) {
         break;
         
         //AAAAAAAAAAAAAAAAAAAA
-        case 'caditens':
-        $execitem= $_POST['itensLista'];
+        // case 'caditens':
+        // $execitem= $_POST['itensLista'];
         $get_id_item= 'SELECT id_produtos FROM produtos WHERE nome_produto ="' . $item . '";';
         $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
         $resultado = mysqli_fetch_assoc($executa_get_id);
         $a['nome_fruta']=$resultado['id_produtos'];
 
-        exit;
-        $add_itens = 'INSERT INTO lista_usuario(id_produtos) VALUES("'. $uta_get_id . '")';
+        // exit;
+        // $add_itens = "UPDATE lista_usuario SET id_produtos = '$idProduto' WHERE id_usuario = " . $_SESSION['id_usuario'] . " ORDER BY id_lista DESC LIMIT 1";
+        $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $resultado['id_produtos'] .' WHERE id_is usuario = "' . $_SESSION['id_usuario'] . '"';
         $executa_add_itens = mysqli_query($GLOBALS['global_conexao_mysqli'], $add_itens);
         // $a['retorno'] ='Sucesso'; 
         //AAAAAAAAAAAAAAAAAAAAA
