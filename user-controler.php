@@ -94,7 +94,7 @@ switch ($_GET['acao']) {
         break;
         
         //AAAAAAAAAAAAAAAAAAAA
-        // case 'caditens':
+        case 'caditens':
         // $execitem= $_POST['itensLista'];
         $get_id_item= 'SELECT id_produtos FROM produtos WHERE nome_produto ="' . $item . '";';
         $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
