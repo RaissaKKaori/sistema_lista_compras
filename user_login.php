@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,8 +45,6 @@
                         text: "Bem-vindo, "+ json.nome + "!",
                         // footer: "<a href=\"#\">Why do I have this issue?</a>"
                         });
-
-                        // echo "Bem-vindo, " + json.nome;
                     } 
                     if(json.retorno == 'Erro'){
                         Swal.fire({

@@ -17,8 +17,8 @@
                     <input class='informacoes' type="checkbox" id='itensLista' name="itemLista[]" value="banana">Banana</input>
                     <input class='informacoes' type="checkbox" id='itensLista' name="itemLista[]" value="ameixa">Ameixa</input>
 
-                    <button type='button' onclick='cadastraItens()' value='cadastraItens'>Salvar itens</button>
-                    <a href='case2.php'> <button type='button' value='acessaLista'>Acessar lista</button> </a>
+                    
+                    <a href='case2.php'> <button type='button' onclick='cadastraItens()' value='cadastraItens'>Salvar itens</button> </a>
                 </section>
             </form>
     </div>
@@ -42,6 +42,7 @@
         function cadastraItens(){
             const formulario = document.querySelector('#id_form');
             const dadosForm = new FormData(formulario);
+            console.log(dadosForm);
             // console.log(dadosForm);
             $.ajax({
                 type: 'POST',

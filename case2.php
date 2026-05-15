@@ -10,29 +10,35 @@
 </head>
 <body>
     <div class='container'>
-        <form action="" method='POST'>
+        <form action="" id='id_form' method='POST'>
             <section class='informacoes'>
                 <h1 class='textoInicio'>Selecione a lista:</h1>
                 <?php
-                    require 'conectaDados.php';
-                    $get_listas= 'SELECT nome_list FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . '';
-                    
+                session_start();
+                include_once('conectaDados.php');
+                require 'conectaDados.php';
+                    $get_listas= 'SELECT * FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
+                    $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listas);
+                    // $resultado = mysqli_fetch_assoc($executa_get_listas);
+                    // print_r($executa_get_listas);
+                    // exit;
                 ?>
                 <select >
-                    <option =>Selecione...</option>
-                    <?php while($linha = mysqli_fetch_assoc($executa_get_nome)){ ?>
-                    <option value="<?php echo($linha['nome_list']);?>"></option>
-                    <?php } ?>
+                    <!-- <option value='' disabled selected >Selecione...</option> -->
+                    <?php if(mysqli_num_rows($executa_get_listas) >0 ){
+                        while($linha = mysqli_fetch_assoc($executa_get_listas)){ ?>
+                            <option value="<?php echo($linha['id']);?>"><?php echo($linha['nome_list']);?></option>
+                    <?php }} ?>
                 </select>
                 
-                <button type='button' onclick='acessaLista()' value='acessaLista'>Acessa Lista</button>
+                <a href='edita_lista.php'><button type='button' onclick='acessaLista()' value='acessaLista'>Acessa Lista</button></a>
             </section>
         </form>
     </div>
     <script>function acessaLista(){
-            // const formulario = document.querySelector('#id_form');
-            // const dadosForm = new FormData(formulario);
-            // // console.log(dadosForm);
+            const formulario = document.querySelector('#id_form');
+            const dadosForm = new FormData(formulario);
+            console.log(dadosForm);
             $.ajax({
                 type: 'POST',
                 url: './user-controler.php?acao=selecionaLista',
@@ -42,8 +48,8 @@
                 contentType: false,
     
                 success: function(json) {
-                    if(json.retorno = 'Sucesso'){
-                        console.log(json.retorno);
+                    if(json.retorno = 'post_vazio'){
+                        console.log('NÂO TEM NADA NO POsT');
                     }
                 }, error: function(){
                     console.log('ERRO');

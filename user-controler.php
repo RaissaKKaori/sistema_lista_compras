@@ -88,60 +88,81 @@ switch ($_GET['acao']) {
             $add_lista= 'INSERT INTO lista_usuario(nome_list, id_usuario) VALUES("'. $nomeLista . '",' . $idUsu .')';
             $executa_add_lista = mysqli_query($GLOBALS['global_conexao_mysqli'], $add_lista);
 
+
             if(mysqli_affected_rows($GLOBALS['global_conexao_mysqli']) > 0){
-                $id_lista='SELECT * FROM lista_usuario;';
-                print_r($id_lista);
+                $id_lista='SELECT * FROM lista_usuario ORDER BY id DESC;';
                 $executa_id_lista=mysqli_query($GLOBALS['global_conexao_mysqli'], $id_lista);
                 $resultado= mysqli_fetch_assoc($executa_id_lista);
-                $_SESSION['id_lista']=$resultado['id_lista'];
-                exit;
+                
+                // print_r($resultado);
+                // exit;
+                $_SESSION['id_lista']=$resultado['id'];
+                $_SESSION['nome_lista']=$resultado['nome_list'];
+                // print_r($_SESSION['id_lista']);
+                // exit;
+                $a['retorno']= 'Sucesso';
             }
         }
         break;
         
         case 'caditens':
-        $itens= $_POST['dadosForm'];
+        $itens= $_POST['itemLista']; //conteúdo de dadosForm
         $id_usu = $_SESSION['id_usuario'];
-
-        $get_id_item = "SELECT id_produtos FROM produtos WHERE nome_produto = '$itemNome'";
-        $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
-        $resultado = mysqli_fetch_assoc($executa_get_id);
-
-        if($resultado){
-            foreach($itens as $frutas){
-                $idProd = $resultado['id_produtos'];
-                $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $idProd .' WHERE id_usuario = "' . $id_usu . '" AND nome_list = ' . $_SESSION['id_lista'] . ';';
-                // $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $resultado['id_produtos'] .' WHERE id_usuario = "' . $_SESSION['id_usuario'] . '" AND nome_list = "' .  . '" ';
-                
-            }
-        }else{
-            $a['retorno'] = 'Erro';
-
-            // $get_id_item= 'SELECT id_produtos FROM produtos WHERE nome_produto ="' . $frutas[1] . '";';
-            // $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
-            // $resultado = mysqli_fetch_assoc($executa_get_id);
-            // print_r($resultado);
+        // print_r($itens);
+        // exit;
+        foreach($itens as $i => $item){
+            $get_id_item = 'SELECT * FROM produtos WHERE nome_produto = "' . $item .'";';
+            $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
+            $resultado = mysqli_fetch_assoc($executa_get_listas);
+            print_r($resultado);
             // exit;
-            // $a['nome_fruta']= $resultado['id_produtos'];
 
+            if($resultado){
+                $add_itens = 'INSERT INTO lista_aux(id_prod, id_lista) VALUES (' . $resultado['id_produtos'] . ',' . $_SESSION['id_lista'] . ');';
+                // $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $resultado['id_produtos'] .' WHERE id_usuario = "' . $_SESSION['id_usuario'] . '" AND nome_list = "' .  . '" ';
+                $executa_add = mysqli_query($GLOBALS['global_conexao_mysqli'], $add_itens);
+                print_r($add_itens);
+                
+                if( mysqli_affected_rows($GLOBALS['global_conexao_mysqli']) > 0){
+                    print_r('EXECUTADO');
+                    $a['retorno'] ='Sucesso';
+                }
+                else{
+                    $a['retorno'] = 'Erro';
+            }
             
-            // $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $resultado['id_produtos'] .' WHERE id_is usuario = "' . $_SESSION['id_usuario'] . '"';
-            // $executa_add_itens = mysqli_query($GLOBALS['global_conexao_mysqli'], $add_itens);
-            // $a['retorno'] ='Sucesso'; 
+        }
         }
         break;
 
         case 'selecionaLista':
-            //para aparecer todos as listas disponíveis para aquele usuário
-            $get_listas= 'SELECT nome_list FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . '';
-            $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'],$get_nome_produto);
-            // print_r($executa_get_nome);
-            $linha_produtos = [];
-            while($linha = mysqli_fetch_assoc($executa_get_listas)){
-                $lista[] = $linha;
+            $lista= $_POST;
+            // print_r($_POST);
+            // exit;
+
+            if(empty($_POST)){
+                $alertErro = 'necessário todas as informações preenchidas';
+                $a['retorno']='post_vazio';
             }
-            print_r($lista);
-            exit;
+
+
+            // //para aparecer todos as listas disponíveis para aquele usuário
+            // $get_listas= 'SELECT nome_list FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
+            // $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'],$get_listas);
+            // $resultado=mysqli_fetch_assoc($executa_get_listas);
+            // print_r($resultado);
+            // // exit;
+            // $linha_produtos = [];
+            // while($linha = mysqli_fetch_assoc($executa_get_listas)){
+            //     $lista[] = $linha;
+            // }
+            // print_r($lista);
+            // exit;
+        break;
+
+        case 'editaLista':
+            $exclui = $_POST;
+            print_r($_POST);
         break;
     default:
         # code...
