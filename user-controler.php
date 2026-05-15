@@ -93,22 +93,24 @@ switch ($_GET['acao']) {
                 print_r($id_lista);
                 $executa_id_lista=mysqli_query($GLOBALS['global_conexao_mysqli'], $id_lista);
                 $resultado= mysqli_fetch_assoc($executa_id_lista);
-                // print_r($resultado['nome_list']);
+                $_SESSION['id_lista']=$resultado['id_lista'];
                 exit;
             }
         }
         break;
         
         case 'caditens':
-        $itens= $_POST['itemLista'];
-        if(isset($itens)){
+        $itens= $_POST['dadosForm'];
+        $id_usu = $_SESSION['id_usuario'];
+
+        $get_id_item = "SELECT id_produtos FROM produtos WHERE nome_produto = '$itemNome'";
+        $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
+        $retorno = mysqli_fetch_assoc($executa_get_id);
+
+        if($retorno){
             foreach($itens as $frutas){
-                
-                $get_id_item= 'SELECT id_produtos FROM produtos WHERE nome_produto ="' . $frutas . '";';
-                $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
-                $resultado = mysqli_fetch_assoc($executa_get_id);
-                $a['retorno'] = $resultado['id_produtos'];
-                
+                $idProd = $retorno['id_produtos'];
+                $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $idProd .' WHERE id_usuario = "' . $id_usu . '" AND nome_list = ' . $_SESSION['id_lista'] . ';';
                 // $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $resultado['id_produtos'] .' WHERE id_usuario = "' . $_SESSION['id_usuario'] . '" AND nome_list = "' .  . '" ';
                 
             }
