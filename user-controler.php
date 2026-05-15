@@ -130,6 +130,19 @@ switch ($_GET['acao']) {
             // $a['retorno'] ='Sucesso'; 
         }
         break;
+
+        case 'selecionaLista':
+            //para aparecer todos as listas disponíveis para aquele usuário
+            $get_listas= 'SELECT nome_list FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . '';
+            $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'],$get_nome_produto);
+            // print_r($executa_get_nome);
+            $linha_produtos = [];
+            while($linha = mysqli_fetch_assoc($executa_get_listas)){
+                $lista[] = $linha;
+            }
+            print_r($lista);
+            exit;
+        break;
     default:
         # code...
         break;
