@@ -105,16 +105,17 @@ switch ($_GET['acao']) {
 
         $get_id_item = "SELECT id_produtos FROM produtos WHERE nome_produto = '$itemNome'";
         $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
-        $retorno = mysqli_fetch_assoc($executa_get_id);
+        $resultado = mysqli_fetch_assoc($executa_get_id);
 
-        if($retorno){
+        if($resultado){
             foreach($itens as $frutas){
-                $idProd = $retorno['id_produtos'];
+                $idProd = $resultado['id_produtos'];
                 $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $idProd .' WHERE id_usuario = "' . $id_usu . '" AND nome_list = ' . $_SESSION['id_lista'] . ';';
                 // $add_itens = 'UPDATE lista_usuario SET id_produtos = ' . $resultado['id_produtos'] .' WHERE id_usuario = "' . $_SESSION['id_usuario'] . '" AND nome_list = "' .  . '" ';
                 
             }
         }else{
+            $a['retorno'] = 'Erro';
 
             // $get_id_item= 'SELECT id_produtos FROM produtos WHERE nome_produto ="' . $frutas[1] . '";';
             // $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
