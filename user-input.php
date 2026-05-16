@@ -15,7 +15,7 @@
                     <h1 class='textoInicio'>Do que precisa hoje?</h1>
                     <a href='case1.php'> <button class='criaLista'>Criar lista</button></a>
                     <a href='case2.php'> <button class='acessaLista'>Acessar lista</button></a>
-                    <a href='case3.php'> <button class='excluiLista'>Excluir lista</button></a>
+                    <a href='exclui_lista.php'> <button class='excluiLista'>Excluir lista</button></a>
         </section>
         </div>
     </div>

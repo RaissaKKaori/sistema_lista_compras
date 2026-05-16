@@ -10,20 +10,20 @@
 </head>
 <body>
     <div class='container'>
-        <form action="" id='id_form' method='POST'>
+        <form action="" method='POST'>
             <section class='informacoes'>
                 <h1 class='textoInicio'>Selecione a lista:</h1>
                 <?php
                 session_start();
                 include_once('conectaDados.php');
                 require 'conectaDados.php';
-                    $get_listas= 'SELECT * FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
-                    $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listas);
+                    // $get_listas= 'SELECT * FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
+                    // $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listas);
                     // $resultado = mysqli_fetch_assoc($executa_get_listas);
                     // print_r($executa_get_listas);
                     // exit;
                 ?>
-                <select >
+                <select id='id_lista'>
                     <!-- <option value='' disabled selected >Selecione...</option> -->
                     <?php if(mysqli_num_rows($executa_get_listas) >0 ){
                         while($linha = mysqli_fetch_assoc($executa_get_listas)){ ?>
@@ -48,8 +48,12 @@
                 contentType: false,
     
                 success: function(json) {
-                    if(json.retorno = 'post_vazio'){
+                    if(json.retorno === 'post_vazio'){
                         console.log('NÂO TEM NADA NO POsT');
+                    }
+                    if(json.retorno === 'Sucesso'){
+                        // Agora sim: Redireciona via JS apenas após o sucesso do back-end
+                        window.location.href = 'edita_lista.php';
                     }
                 }, error: function(){
                     console.log('ERRO');

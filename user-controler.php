@@ -136,15 +136,24 @@ switch ($_GET['acao']) {
         break;
 
         case 'selecionaLista':
-            $lista= $_POST;
+            $listaEscolhida= $_POST['id_lista'];
             // print_r($_POST);
             // exit;
+
+            $get_listas= 'SELECT * FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
+            $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listas);
 
             if(empty($_POST)){
                 $alertErro = 'necessário todas as informações preenchidas';
                 $a['retorno']='post_vazio';
             }
-
+            //validar se existe a lista antes de passar para a proxima página
+            $get_listaValida = 'SELECT nome_list from lista_usuario where nome_list = "' . $listaEscolhida . '" ';
+            $listaValida= mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listaValida);
+            
+            if($listaValida){
+                $a['retorno'] = 'Sucesso';
+                }
 
             // //para aparecer todos as listas disponíveis para aquele usuário
             // $get_listas= 'SELECT nome_list FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
@@ -161,7 +170,7 @@ switch ($_GET['acao']) {
         break;
 
         case 'editaLista':
-            $exclui = $_POST;
+            $excluiOUajusta = $_POST;
             print_r($_POST);
         break;
     default:
