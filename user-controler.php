@@ -136,7 +136,9 @@ switch ($_GET['acao']) {
         break;
 
         case 'selecionaLista':
+            //PRECISA TESTAR O POST
             $listaEscolhida= $_POST['id_lista'];
+            $_SESSION['listaEscolhida']= $_POST['id_lista'];
             // print_r($_POST);
             // exit;
 
@@ -147,12 +149,14 @@ switch ($_GET['acao']) {
                 $alertErro = 'necessário todas as informações preenchidas';
                 $a['retorno']='post_vazio';
             }
+
             //validar se existe a lista antes de passar para a proxima página
             $get_listaValida = 'SELECT nome_list from lista_usuario where nome_list = "' . $listaEscolhida . '" ';
             $listaValida= mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listaValida);
             
             if($listaValida){
                 $a['retorno'] = 'Sucesso';
+                exit; //!!!!!!
                 }
 
             // //para aparecer todos as listas disponíveis para aquele usuário
@@ -170,8 +174,33 @@ switch ($_GET['acao']) {
         break;
 
         case 'editaLista':
-            $excluiOUajusta = $_POST;
+            //PRCISA TESTAR O POST
+            $ajusta = $_POST['editar'];
             print_r($_POST);
+
+            // $get_nome_lista ='SELECT nome_list from lista_usuario where id = '. $_SESSION['id_lista'] .';'; 
+            // $executa = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_nome_lista);
+            // $resultado= mysqli_fetch_assoc($executa);
+
+            // $get_conteudo = 'SELECT id_prod from lista_aux where id_lista = '. $_SESSION['id_lista'] .';';
+            // $executa_conteudo = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_conteudo);
+            $get_nome_produto = 'SELECT nome_produto FROM produtos WHERE id_produtos IN (SELECT id_prod from lista_aux where id_lista = ' . $_SESSION['id_lista'] . ' );';
+            $executa_get_prod = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_nome_produto);
+
+            if(empty($_POST['editar'])){
+                $alertErro = 'necessário todas as informações preenchidas';
+                $a['retorno']='post_vazio';
+            }
+            if($_POST['item_lista']){
+                $get_id_item = 'SELECT * FROM produtos WHERE nome_produto = "' . $ajusta .'";';
+                $executa_get_listas = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_item);
+                $resultado = mysqli_fetch_assoc($executa_get_listas);
+
+                $edita_item= 'update lista_usuario set item_id = ' . $resultado['id_prod'] . ';';
+                $executa_edita_item = mysqli_query($GLOBALS['global_conexao_mysqli'], $edita_item);
+                $a['retorno'] = 'Sucesso';
+            }
+
         break;
     default:
         # code...

@@ -22,7 +22,7 @@
                     // $resultado = mysqli_fetch_assoc($executa_get_listas);
                     // print_r($executa_get_listas);
                     // exit;
-                ?>
+                ?>  
                 <select id='id_lista'>
                     <!-- <option value='' disabled selected >Selecione...</option> -->
                     <?php if(mysqli_num_rows($executa_get_listas) >0 ){
