@@ -137,8 +137,7 @@ switch ($_GET['acao']) {
 
         case 'selecionaLista':
             $lista= $_POST;
-            // print_r($_POST);
-            // exit;
+            $_SESSION['lista_selecionada']=$_POST;
 
             if(empty($_POST)){
                 $alertErro = 'necessário todas as informações preenchidas';
@@ -161,9 +160,46 @@ switch ($_GET['acao']) {
         break;
 
         case 'editaLista':
-            $exclui = $_POST;
-            print_r($_POST);
+            $itens_edicao = $_POST; 
+            // print_r($_POST);
+            // exit;
+            
+            // $item = [];
+            $get_id_produto = 'SELECT * FROM produtos WHERE nome_produto = ("'. $_POST['editar'] .'");'; //id do que o usuario quer add
+            // print_r($get_id_produto);
+            // exit;
+            $executa_get_id = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_id_produto);
+            $resultado= mysqli_fetch_assoc($executa_get_id);
+
+            
+            // $edita_item = 'update lista_aux set id_prod = ' . $resultado['id_prod'] . ' where nome_list = "' . $_SESSION['lista_selecionada'] . '" AND id_prod = ' . $_SESSION['item_selecionado'] . ';';
+            // $executa_edita_item = mysqli_query($GLOBALS['global_conexao_mysqli'], $edita_item);
+            // print_r($executa_edita_item);
+            // break;
+            $edita_item = 'update lista_aux set id_prod = ' . $resultado['id_produtos'] . ' where id_lista = "' . $_SESSION['id_lista'] . '" AND id_prod = ' . $itens_edicao['opcao'] . ';';
+            $executa_edita_item = mysqli_query($GLOBALS['global_conexao_mysqli'], $edita_item);
+            // print_r($executa_edita_item); = 1
+            // exit;
+            
+            $a['retorno']='editar_item';
+            
+            // $edita_item = 'update lista_aux set id_prod = ' . $resultado['id_prod'] . ' where nome_list = "' . $_SESSION['lista_selecionada'] . '" AND id_prod = ' . $_SESSION['item_selecionado'] . ';';
+            //     $executa_edita_item = mysqli_query($GLOBALS['global_conexao_mysqli'], $edita_item);
+            //     print_r($executa_edita_item);
+            //     break;
+            
+            // $edita_item = 'update lista_aux set id_prod = ' . $resultado['id_prod'] . ' where nome_list = "' . $_SESSION['lista_selecionada'] . '" AND id_prod = ' . $_SESSION['item_selecionado'] . ';';
+            // // print_r($edita_item);
+            // // break;
+            // $executa_edita_item = mysqli_query($GLOBALS['global_conexao_mysqli'], $edita_item);
+            // print_r($executa_edita_item);
+            // $a['retorno']= 'editar_item';
+
         break;
+
+        case 'Exclui lista':
+
+            break;
     default:
         # code...
         break;

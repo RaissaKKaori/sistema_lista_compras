@@ -22,54 +22,107 @@
                     // print_r($resultado);
                     // exit;
                 ?>
-                <h1 class='textoInicio'>Lista <?php echo $resultado['nome_list'];?></h1>
+                <h1 class='textoInicio'>Lista <?php echo $resultado['nome_list']?></h1>
                 <?php 
                 include_once('conectaDados.php');
                 require 'conectaDados.php';
                     $get_conteudo = 'SELECT id_prod from lista_aux where id_lista = '. $_SESSION['id_lista'] .';';
                     $executa_conteudo = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_conteudo);
-                    $get_nome_produto = 'SELECT nome_produto FROM produtos WHERE id_produtos IN (SELECT id_prod from lista_aux where id_lista = ' . $_SESSION['id_lista'] . ' );';
+                    $get_nome_produto = 'SELECT * FROM produtos WHERE id_produtos IN (SELECT id_prod from lista_aux where id_lista = ' . $_SESSION['id_lista'] . ' );';
                     $executa_get_prod = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_nome_produto);
+                    $get_produtos = 'SELECT * FROM produtos';
+                    $executa_get_produtos = mysqli_query($GLOBALS['global_conexao_mysqli'], $get_produtos);
 
                     // $resultado = mysqli_fetch_assoc($executa);
                     // print_r($executa_get_prod);
                     // exit;
                 ?>
                 <?php 
+                    $itens = [];
+                    if(mysqli_num_rows($executa_get_produtos)>0){
+                        while($resultado = mysqli_fetch_assoc($executa_get_produtos)){
+                            $itens[] = $resultado['nome_produto'];
+                            $_SESSION['itens']=$itens;
+                        }
+                    }
+
                     if(mysqli_num_rows($executa_get_prod) >0 ){
                         while($resultado = mysqli_fetch_assoc($executa_get_prod)){ 
                         // print_r ($resultado['nome_produto']);
                         // exit;
+                        // $itens[] = $resultado['nome_produto'];
+                        // $_SESSION['itens']=$itens
                         ?>
-                <input class='informacoes' type="checkbox" id='itensLista' name="itemLista"> <?php print_r($resultado['nome_produto']); ?> </input>
-                <?php }} ?>
-                //edita_lista.php:18 Uncaught TypeError: botaoExcliur is not a function at HTMLButtonElement.onclick (edita_lista.php:18:100)
+                <input class='informacoes' type="radio" id='itensLista' name="itemLista" value='<?php print_r($resultado['id_produtos']); ?>' > <?php print_r($resultado['nome_produto']); ?> </input>
+                <?php }}  ?>
                 <button type='button' onclick='botaoExcliur()' name='botaoExcliur'>excuir</button>
+                <button type='button' onclick='editaItem()' name='editarItem'>Editar item</button>
             </section>
         </form>
     </div>
 
     <script>
-        function botaoExcliur(){
-            $.ajax({
+        function editaItem(){
+            selectItens= [];
+            <?php foreach($itens as $item){ ?>
+        selectItens["<?php echo $item; ?>"] = "<?php echo $item; ?>";
+        <?php } ?>
+            console.log(selectItens);
+            var opcao = $("input[type=radio][name=itemLista]:checked").val();
+            console.log(opcao);
+            Swal.fire({
+                title: "Qual item você pretende alterar?",
+                input: "select",
+                inputOptions: selectItens,
+                inputAttributes: { autocapitalize: "off" },
+                showCancelButton: true,
+                confirmButtonText: "Confirmar",
+            }).then((response) => {
+                console.log(response.value)
+                $.ajax({
                 type: 'POST',
                     url: './user-controler.php?acao=editaLista',
-                    data: { 
-                        excluir: $('input[name = "itemLista"]').val()
+                    data: {
+                        opcao: opcao,
+                        editar: response.value
                     },
+                    
                     dataType: 'json',
-                    // processData: false, 
-                    // contentType: false,
         
                     success: function(json) {
-                        if(json.retorno = 'post_vazio'){
+                        if(json.retorno === 'post_vazio'){
                             console.log('NÂO TEM NADA NO POsT');
                         }
-                    }, error: function(){
-                        console.log('ERRO');
+                        if(json.retorno === 'editar_item'){
+                            console.log('SUCESSO');
+                        }
+                    }, error: function(json){
+                        console.log('ERRO')
                     }
+                })
             })
-}
+        }
+
+
+            // $.ajax({
+            //     type: 'POST',
+            //         url: './user-controler.php?acao=editaLista',
+            //         data: { 
+            //             item_selecionado: $('input[name = "itemLista"]').val()
+            //         },
+            //         dataType: 'json',
+            //         // processData: false, 
+            //         // contentType: false,
+        
+            //         success: function(json) {
+            //             if(json.retorno = 'post_vazio'){
+            //                 console.log('NÂO TEM NADA NO POsT');
+            //             }
+            //         }, error: function(){
+            //             console.log('ERRO');
+            //         }
+            // })
+
     </script>
 
 </body>

@@ -22,7 +22,6 @@
                 </section>
             </form>
     </div>
-
     <script>
         // function salvarSelecao() {
         // const checkboxes = document.querySelectorAll('.lang:checked');
