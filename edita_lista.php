@@ -94,12 +94,68 @@
                             console.log('NÂO TEM NADA NO POsT');
                         }
                         if(json.retorno === 'editar_item'){
+                            location.reload();
                             console.log('SUCESSO');
+                            Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Item alterado com sucesso!",
+                            showConfirmButton: false,
+                            timer: 500
+                            });
+
                         }
                     }, error: function(json){
-                        console.log('ERRO')
+                        console.log('ERRO');
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "Algo de errado não está certo...",
+                            showConfirmButton: false,
+                            timer: 500
+                            });
                     }
                 })
+            })
+        }
+
+        function botaoExcliur(){
+            var opcao = $("input[type=radio][name=itemLista]:checked").val();
+            $.ajax({
+                type: 'POST',
+                    url: './user-controler.php?acao=excluiItem',
+                    data: { 
+                        opcao: opcao
+                    },
+                    dataType: 'json',
+                    // processData: false, 
+                    // contentType: false,
+        
+                    success: function(json) {
+                        if(json.retorno = 'post_vazio'){
+                            console.log('NÂO TEM NADA NO POsT');
+                        }
+                        if(json.retono = ''excluir_item){
+                            location.reload();
+                            console.log('AAAAAA');
+                            Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Item removido com sucesso!",
+                            showConfirmButton: false,
+                            timer: 500
+                            });
+                        }
+                    }, error: function(){
+                        console.log('ERRO');
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "Algo de errado não está certo...",
+                            showConfirmButton: false,
+                            timer: 500
+                            });
+                    }
             })
         }
 

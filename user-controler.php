@@ -206,6 +206,11 @@ switch ($_GET['acao']) {
         break;
 
         case 'Exclui lista':
+            $excluiItem = $_POST;
+
+            $del_item = 'delet from lista_aux where id_prod ='. $excluiItem .';';
+            $executa_del_item = mysqli_query($GLOBALS['global_conexao_mysqli'], $del_item);
+            $a['retorno']= 'excluir_item';
 
             break;
     default:
