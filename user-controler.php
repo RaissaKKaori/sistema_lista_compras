@@ -144,6 +144,14 @@ switch ($_GET['acao']) {
                 $a['retorno']='post_vazio';
             }
 
+            //validar se existe a lista antes de passar para a proxima página
+            $get_listaValida = 'SELECT nome_list from lista_usuario where nome_list = "' . $listaEscolhida . '" ';
+            $listaValida= mysqli_query($GLOBALS['global_conexao_mysqli'], $get_listaValida);
+            
+            if($listaValida){
+                $a['retorno'] = 'Sucesso';
+                exit; //!!!!!!
+                }
 
             // //para aparecer todos as listas disponíveis para aquele usuário
             // $get_listas= 'SELECT nome_list FROM lista_usuario WHERE id_usuario = ' . $_SESSION['id_usuario'] . ' ORDER BY id DESC;';
